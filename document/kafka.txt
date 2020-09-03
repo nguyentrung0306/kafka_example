@@ -1,0 +1,32 @@
+KAFKA CMD
+
+//START zookeeper server
+./zookeeper-server-start.bat F:/Kafa/kafka_2.12-2.1.1/config/zookeeper.properties
+nohup ./zookeeper-server-start.sh ../config/zookeeper.properties &
+
+//START kafka server
+./kafka-server-start.bat F:/Kafa/kafka_2.12-2.1.1/config/server.properties
+nohup ./kafka-server-start.sh ../config/server.properties &
+
+//get list TOPIC kafka
+./kafka-topics.bat --list --zookeeper localhost:2181
+./kafka-topics.sh --list --zookeeper 192.168.1.201:2181
+
+//create topic
+kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic NAME_TOPIC
+
+//delete topic
+kafka-topics.bat --zookeeper localhost:2181 --delete --topic <topic_name>
+
+//comsumer console
+./kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic NAME_TOPIC
+
+./kafka-console-consumer.sh --bootstrap-server 192.168.1.201:9092 --topic sib.log.controller.topic
+./kafka-console-consumer.sh --bootstrap-server 192.168.1.201:9092 --topic sib.log.coreapi.topic
+
+//send message console	
+kafka-console-producer.bat --broker-list localhost:9092 --topic NAME_TOPIC
+
+
+
+mvn  --settings .settings.xml clean package -DskipTests=true -Dmaven.test.failure.ignore=true sonar:sonar -Dsonar.projectName=SIB_API_TUNGBT_FIX_SONAR -Dsonar.projectKey=SIB_API_TUNGBT_FIX_SONAR
